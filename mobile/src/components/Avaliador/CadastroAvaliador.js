@@ -27,9 +27,7 @@ export default function CadastroAvaliador( { navigation }){
             <Text style={styles.label}>CADASTRO</Text>
 
 
-            <View style={styles.container}>
-                <Image source={usuario} />
-            </View>
+            
             <Text style={styles.label}>Nome Completo</Text>
             <Text style={styles.label}>E-mail</Text>
             <View style={styles.form}>

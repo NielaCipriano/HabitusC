@@ -20,6 +20,7 @@ export default function CadastrarFatoObservado( { navigation }){
   const [fatos,setFatos] = useState('');
 
   const [avaliadores, setAvaliadores] = useState([]);
+  const [avaliados, setAvaliados] = useState([]);
   const [conteudos,setListaConteudos] = useState('');
 
   useEffect(() => {
@@ -28,7 +29,11 @@ export default function CadastrarFatoObservado( { navigation }){
     })
     api.get('avaliador').then(resp => {
       setAvaliadores(resp.data);
+    })
+    api.get('avaliado').then(resp => {
+      setAvaliados(resp.data);
     });
+
   }, []);
 
   async function cadastrar(event){
@@ -40,6 +45,10 @@ export default function CadastrarFatoObservado( { navigation }){
     await api.post(`curso/${avaliador_id}/avaliador/fo`,fato).then(resp => {
         return resp.data;
     }).catch(console.log(`Error: ${console.error}`));
+
+    await api.post(`curso/${avaliado_id}/avaliado/fo`,fato).then(resp => {
+      return resp.data;
+   }).catch(console.log(`Error: ${console.error}`));
 
     navigation.navigate('Home');
 
@@ -93,7 +102,6 @@ export default function CadastrarFatoObservado( { navigation }){
                     onChangeText={tipo_fato => setTipo(tipo_fato)}
                     />
 
-                    {/*exemplo da seleção */}
                     <Text style={styles.label}>Avaliador</Text>
                     <Picker
                       selectedValue={avaliador_id}
@@ -107,26 +115,13 @@ export default function CadastrarFatoObservado( { navigation }){
                         />
                       ))}
                     </Picker>
-                    {/* <TextInput
-                      style={styles.Input}
-                      placeholder="Selecione o avaliador"
-                      placeholderTextColor= "#999"
-                      autoCorrect={false}
-                      titulo = "avaliador_id"
-                      type="number"
-                      keyboardType = 'numeric'
-                      defaultValue={avaliador_id}
-                      onChangeText={avaliador_id => setAvaliador_id((avaliador_id))}
-                    /> */}
-
-
-                     {/*exemplo da seleção */}
-                     <Text style={styles.label}>Avaliados</Text>
+                      
+                    <Text style={styles.label}>Avaliados</Text>
                     <Picker
                       selectedValue={avaliado_id}
-                      onValueChange={(itemValue, itemIndex) => setAvaliado_id(itemValue)}
+                      onValueChange={(itemValue, itemIndex) => setListaAvaliados(itemValue)}
                     >
-                      {avaliadores.map(avaliado => (
+                      {avaliados.map(avaliado => (
                         <Picker.Item
                           key={avaliado.usuarioAvaliado.id}
                           label={avaliado.usuarioAvaliado.nome_usuario}
@@ -135,23 +130,6 @@ export default function CadastrarFatoObservado( { navigation }){
                       ))}
                     </Picker>
 
-
-                     {/*    
-                      <Text style={styles.label}>Avaliados</Text>
-                      <TextInput
-                      style={styles.Input}
-                      placeholder="Selecione os avaliados"
-                      placeholderTextColor= "#999"
-                      autoCorrect={false}
-                      titulo = "listaAvaliados"
-                      type="number"
-                      keyboardType = 'numeric'
-                      defaultValue={avaliado_id}
-                      onChangeText={avaliado_id => setListaAvaliados(avaliado_id)}
-                    />
-                      */} 
-
-                      
                       <Text style={styles.label}>Atividade</Text>
                       <TextInput
                       style={styles.Input}
