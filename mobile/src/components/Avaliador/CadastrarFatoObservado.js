@@ -21,18 +21,21 @@ export default function CadastrarFatoObservado( { navigation }){
 
   const [avaliadores, setAvaliadores] = useState([]);
   const [avaliados, setAvaliados] = useState([]);
-  const [conteudos,setListaConteudos] = useState('');
+  const [conteudos,setListaConteudos] = useState([]);
 
   useEffect(() => {
-    api.get(`conteudos`).then(resp => {
+    api.get('conteudos').then(resp => {
         setListaConteudos(resp.data);
     })
     api.get('avaliador').then(resp => {
       setAvaliadores(resp.data);
     })
-    api.get('avaliado').then(resp => {
+    api.get(`curso/avaliado/${avaliado_id}`,avaliados).then(resp => {
       setAvaliados(resp.data);
-    });
+    })
+    api.get('avaliador').then(resp => {
+      setAvaliadores(resp.data);
+    });    ;
 
   }, []);
 
@@ -45,10 +48,6 @@ export default function CadastrarFatoObservado( { navigation }){
     await api.post(`curso/${avaliador_id}/avaliador/fo`,fato).then(resp => {
         return resp.data;
     }).catch(console.log(`Error: ${console.error}`));
-
-    await api.post(`curso/${avaliado_id}/avaliado/fo`,fato).then(resp => {
-      return resp.data;
-   }).catch(console.log(`Error: ${console.error}`));
 
     navigation.navigate('Home');
 
@@ -123,9 +122,9 @@ export default function CadastrarFatoObservado( { navigation }){
                     >
                       {avaliados.map(avaliado => (
                         <Picker.Item
-                          key={avaliado.usuarioAvaliado.id}
-                          label={avaliado.usuarioAvaliado.nome_usuario}
-                          value={avaliado.usuarioAvaliado.id}
+                          key={avaliado.id}
+                          label={avaliado.nome_avaliado}
+                          value={avaliado.id}
                         />
                       ))}
                     </Picker>
@@ -162,17 +161,20 @@ export default function CadastrarFatoObservado( { navigation }){
                       onChangeText={desc_providencia => setProvidencia(desc_providencia)}
                     />
 
-                       <Text style={styles.label}>Conteúdos</Text>
-                      <TextInput
-                      style={styles.Input}
-                      placeholder="Selecione os Conteúdos"
-                      placeholderTextColor= "#999"
-                      autoCorrect={false}
-                      titulo = "nome_conteudo"
-                      defaultValue={nome_conteudo}
-                      onChangeText={nome_conteudo => setConteudo(nome_conteudo)}
-
-                    />
+                     
+                    <Text style={styles.label}>Conteúdos</Text>
+                    <Picker
+                      selectedValue={nome_conteudo}
+                      onValueChange={(itemValue, itemIndex) =>  setConteudo(itemValue)}
+                    >
+                      {conteudos.map(conteudos => (
+                        <Picker.Item
+                          key={conteudos.id}
+                          label={conteudos.nome_conteudo}
+                          value={conteudos.conteudo.id}
+                        />
+                      ))}
+                    </Picker>
 
                      <Text style={styles.label}>PAUTAS</Text>
 

@@ -10,6 +10,14 @@ export default function CadastroAvaliador( { navigation }){
 
     const [senha_usuario, setSenha_usuario] = useState('');
 
+    
+  useEffect(() => {
+    api.get('avaliador').then(resp => {
+      setAvaliadores(resp.data);
+    });
+  
+  }, []);
+
     async function handleSubmit(){
 
 

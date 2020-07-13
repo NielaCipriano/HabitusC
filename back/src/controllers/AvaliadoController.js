@@ -15,6 +15,9 @@ module.exports = {
         return res.json(avaliado);
     },
 
+    
+
+
     async store(req,res){
         const {curso_id} = req.params;
         const {email_usuario} = req.body;

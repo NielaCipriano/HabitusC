@@ -56,6 +56,7 @@ routes.delete('/curso/avaliado/:curso_id',AvaliadoController.delete); //deleta a
 routes.get('/curso/avaliado/:curso_id/:usuario_id',IdAvaliadoController.index); //id do avaliado pelo id usuario e curso
 
 //verificar porque /curso/:curso_id/avaliador não funciona (saturação?)
+
 routes.get('/avaliador',AvaliadorController.all); //busca todos avaliadores
 routes.get('/avaliador/:curso_id',AvaliadorController.index); //busca todos avaliadores no curso
 routes.post('/avaliador/:curso_id',AvaliadorController.store); //cria avaliador no curso (e no banco, se nao existir)
@@ -69,5 +70,6 @@ routes.delete('/curso/:curso_id/coordenador',CoordenadorController.delete); //de
 routes.post('/curso/:avaliador_id/avaliador/fo',FatoObservadoAvaliadorController.store); //cadastra fo no id avaliador
 routes.get('/curso/fo',FatoObservadoAvaliadorController.index); //visualiza todos fo do avaliador
 routes.get('/curso/:avaliado_id/avaliado/fo',FatoObservadoAvaliadoController.index); //visualiza todos fo do avaliado
+
 
 module.exports = routes;
